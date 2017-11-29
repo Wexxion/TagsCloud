@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using TagsCloud.Layouter.Interfaces;
 
-namespace TagsCloud
+namespace TagsCloud.Layouter
 {
-    class CircularCloudLayouter
+    class CircularCloudLayouter : ITagCloudLayouter
     {
         private readonly Spiral spiral;
         private readonly List<Rectangle> rectangles;

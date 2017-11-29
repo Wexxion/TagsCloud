@@ -2,41 +2,52 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using FluentAssertions.Common;
+using TagsCloud.Interfaces;
+using TagsCloud.Layouter.Interfaces;
+using TagsCloud.TextAnalyzing;
 
 namespace TagsCloud
 {
-    class TagCloudVizualizer
+    public class TagCloudVizualizer
     {
-        private Graphics graphics;
-        private readonly Image image;
-        private readonly Random rnd = new Random();
+        private readonly Random rnd;
+        private readonly IImageConfigurator imageConfigurator;
+        private readonly Point center;
+        public string FilePath { get; set; }
 
-        public TagCloudVizualizer(string filepath) => image = new Image(filepath);
-
-        public void DrawTagCloud(List<Word> words, Point center)
+        public TagCloudVizualizer(IImageConfigurator imageConfigurator, Point center)
         {
-            graphics = image.Configure(words.Select(word => word.LayoutRectangle).ToList(), center);
-
-            foreach (var word in words)
-            {
-                var brush = new SolidBrush(GetRandomColor());
-                graphics.DrawString(word.Value, word.Font, brush, word.LayoutRectangle);
-            }
-
-            image.Save();
+            this.imageConfigurator = imageConfigurator;
+            this.center = center;
+            rnd = new Random();
         }
 
-        public void DrawRectCloud(IReadOnlyCollection<Rectangle> rectangles, Point center)
+        public void DrawTagCloud(List<ILayoutComponent<Word>> layoutComponents)
         {
-            graphics = image.Configure(rectangles, center);
+            imageConfigurator.Configure(layoutComponents.Select(word => word.LayoutRectangle).ToList(), center);
+
+            foreach (var layoutComponent in layoutComponents)
+            {
+                var brush = new SolidBrush(GetRandomColor());
+                imageConfigurator.Graphics.DrawString(layoutComponent.Component.Value, 
+                    layoutComponent.Component.Font, brush, layoutComponent.LayoutRectangle);
+            }
+
+            imageConfigurator.SaveImage(FilePath);
+        }
+
+        public void DrawRectCloud(IReadOnlyCollection<Rectangle> rectangles)
+        {
+            imageConfigurator.Configure(rectangles, center);
 
             foreach (var rectangle in rectangles)
             {
-                graphics.FillRectangle(new SolidBrush(GetRandomColor()), rectangle);
-                graphics.DrawRectangle(new Pen(Color.Black), rectangle);
+                imageConfigurator.Graphics.FillRectangle(new SolidBrush(GetRandomColor()), rectangle);
+                imageConfigurator.Graphics.DrawRectangle(new Pen(Color.Black), rectangle);
             }
 
-            image.Save();
+            imageConfigurator.SaveImage(FilePath);
         }
 
         private Color GetRandomColor()

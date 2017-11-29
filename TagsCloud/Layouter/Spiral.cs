@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using TagsCloud.Layouter.Interfaces;
 
-namespace TagsCloud
+namespace TagsCloud.Layouter
 {
-    class Spiral
+    class Spiral : ILayoutAlgorithm
     {
         private Point center;
         private readonly IEnumerator<Point> enumerator;

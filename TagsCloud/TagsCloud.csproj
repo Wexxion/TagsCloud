@@ -54,20 +54,36 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CircularCloudLayouter.cs" />
-    <Compile Include="Extensions.cs" />
-    <Compile Include="Geometry.cs" />
-    <Compile Include="Image.cs" />
+    <Compile Include="ConsoleUi.cs" />
+    <Compile Include="Layouter\CircularCloudLayouter.cs" />
+    <Compile Include="Infrastructure\Extensions.cs" />
+    <Compile Include="FileTextReader.cs" />
+    <Compile Include="TextAnalyzing\FontAnalyzer.cs" />
+    <Compile Include="Infrastructure\Geometry.cs" />
+    <Compile Include="ImageConfigurator.cs" />
+    <Compile Include="TextAnalyzing\Interfaces\IFontAnalyzer.cs" />
+    <Compile Include="Interfaces\IImageConfigurator.cs" />
+    <Compile Include="Layouter\Interfaces\ILayoutAlgorithm.cs" />
+    <Compile Include="Layouter\Interfaces\ILayoutComponent.cs" />
+    <Compile Include="Layouter\Interfaces\ITagCloudLayouter.cs" />
+    <Compile Include="TextAnalyzing\Interfaces\ITextAnalyzer.cs" />
+    <Compile Include="Interfaces\ITextReader.cs" />
+    <Compile Include="Interfaces\IUI.cs" />
+    <Compile Include="TextAnalyzing\Interfaces\IWordConverter.cs" />
+    <Compile Include="TextAnalyzing\Interfaces\IWordFilter.cs" />
+    <Compile Include="TextAnalyzing\SimpleWordFilter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Spiral.cs" />
+    <Compile Include="TextAnalyzing\SimpleWordConverter.cs" />
+    <Compile Include="Layouter\Spiral.cs" />
     <Compile Include="TagCloudVizualizer.cs" />
     <Compile Include="Tests\CircularCloudLayouter_Should.cs" />
     <Compile Include="Tests\Geometry_Should.cs" />
     <Compile Include="Tests\Spiral_Should.cs" />
     <Compile Include="Tests\TextAnalyzer_Should.cs" />
-    <Compile Include="TextAnalyzer.cs" />
-    <Compile Include="Word.cs" />
+    <Compile Include="TextAnalyzing\TextAnalyzer.cs" />
+    <Compile Include="TextAnalyzing\Word.cs" />
+    <Compile Include="Layouter\WordLayoutComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

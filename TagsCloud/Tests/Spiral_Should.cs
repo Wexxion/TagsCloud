@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+using TagsCloud.Layouter;
 
 namespace TagsCloud.Tests
 {

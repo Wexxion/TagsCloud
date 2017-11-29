@@ -4,6 +4,7 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
+using TagsCloud.Layouter;
 
 namespace TagsCloud.Tests
 {
@@ -94,8 +95,8 @@ namespace TagsCloud.Tests
             if (context.Result.Outcome.Status != TestStatus.Failed) return;
             var appPath = AppDomain.CurrentDomain.BaseDirectory;
             var filepath = $@"{appPath}\\..\\..\\Tests\\Fails\\{context.Test.Name}.jpg";
-            var visualizer = new TagCloudVizualizer(filepath);
-            visualizer.DrawRectCloud(layouter.Rectangles, layouter.Center);
+            var visualizer = new TagCloudVizualizer(new ImageConfigurator(), layouter.Center);
+            visualizer.DrawRectCloud(layouter.Rectangles);
 
             Console.WriteLine($"Tag cloud visualization saved to file {filepath}");
         }
