@@ -4,7 +4,9 @@ using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
+using TagsCloud.Infrastructure;
 using TagsCloud.Layouter;
+using TagsCloud.Vizualization;
 
 namespace TagsCloud.Tests
 {
@@ -18,7 +20,7 @@ namespace TagsCloud.Tests
         public void SetUp()
         {
             center = new Point(0, 0);
-            layouter = new CircularCloudLayouter(center);
+            layouter = new CircularCloudLayouter(new PointFactory());
         }
 
         [Test]
@@ -36,7 +38,7 @@ namespace TagsCloud.Tests
         public void ThrowArgumentException_WhenCenterHasNegativeCoordinates(int x, int y)
         {
             var center = new Point(x, y);
-            Action act = () => new CircularCloudLayouter(center);
+            Action act = () => new CircularCloudLayouter(new PointFactory());
 
             act.ShouldThrow<ArgumentException>().WithMessage("*negative*");
         }
@@ -94,8 +96,9 @@ namespace TagsCloud.Tests
             var context = TestContext.CurrentContext;
             if (context.Result.Outcome.Status != TestStatus.Failed) return;
             var appPath = AppDomain.CurrentDomain.BaseDirectory;
-            var filepath = $@"{appPath}\\..\\..\\Tests\\Fails\\{context.Test.Name}.jpg";
-            var visualizer = new TagCloudVizualizer(new ImageConfigurator(), layouter.Center);
+            var filepath = $@"{appPath}\..\..\Tests\Fails\{context.Test.Name}.jpg";
+            var visualizer = new TagCloudVizualizer(new ImageConfigurator(), 
+                new PointFactory()) {FilePath = filepath};
             visualizer.DrawRectCloud(layouter.Rectangles);
 
             Console.WriteLine($"Tag cloud visualization saved to file {filepath}");

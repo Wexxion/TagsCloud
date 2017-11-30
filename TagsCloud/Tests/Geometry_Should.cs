@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using NUnit.Framework;
+using TagsCloud.Infrastructure;
 
 namespace TagsCloud.Tests
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using TagsCloud.Interfaces;
 
-namespace TagsCloud
+namespace TagsCloud.Infrastructure
 {
     public class FileTextReader : ITextReader
     {

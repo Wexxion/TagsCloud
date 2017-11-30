@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace TagsCloud
+namespace TagsCloud.Infrastructure
 {
     public static class Extensions
     {

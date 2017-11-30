@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using FluentAssertions.Common;
+using TagsCloud.Infrastructure;
 using TagsCloud.Interfaces;
 using TagsCloud.Layouter.Interfaces;
 using TagsCloud.TextAnalyzing;
 
-namespace TagsCloud
+namespace TagsCloud.Vizualization
 {
     public class TagCloudVizualizer
     {
@@ -16,38 +16,39 @@ namespace TagsCloud
         private readonly Point center;
         public string FilePath { get; set; }
 
-        public TagCloudVizualizer(IImageConfigurator imageConfigurator, Point center)
+        public TagCloudVizualizer(IImageConfigurator imageConfigurator, PointFactory pointFactory)
         {
             this.imageConfigurator = imageConfigurator;
-            this.center = center;
+            center = pointFactory.Create();
             rnd = new Random();
         }
 
-        public void DrawTagCloud(List<ILayoutComponent<Word>> layoutComponents)
+        public Bitmap DrawTagCloud(List<ILayoutComponent<Word>> layoutComponents)
         {
-            imageConfigurator.Configure(layoutComponents.Select(word => word.LayoutRectangle).ToList(), center);
+            var (bitmap, graphics) = imageConfigurator
+                .Configure(layoutComponents.Select(word => word.LayoutRectangle).ToList(), center);
 
             foreach (var layoutComponent in layoutComponents)
             {
                 var brush = new SolidBrush(GetRandomColor());
-                imageConfigurator.Graphics.DrawString(layoutComponent.Component.Value, 
+                graphics.DrawString(layoutComponent.Component.Value, 
                     layoutComponent.Component.Font, brush, layoutComponent.LayoutRectangle);
             }
 
-            imageConfigurator.SaveImage(FilePath);
+            return bitmap;
         }
 
-        public void DrawRectCloud(IReadOnlyCollection<Rectangle> rectangles)
+        public Bitmap DrawRectCloud(IReadOnlyCollection<Rectangle> rectangles)
         {
-            imageConfigurator.Configure(rectangles, center);
+            var (bitmap, graphics) = imageConfigurator.Configure(rectangles, center);
 
             foreach (var rectangle in rectangles)
             {
-                imageConfigurator.Graphics.FillRectangle(new SolidBrush(GetRandomColor()), rectangle);
-                imageConfigurator.Graphics.DrawRectangle(new Pen(Color.Black), rectangle);
+                graphics.FillRectangle(new SolidBrush(GetRandomColor()), rectangle);
+                graphics.DrawRectangle(new Pen(Color.Black), rectangle);
             }
 
-            imageConfigurator.SaveImage(FilePath);
+            return bitmap;
         }
 
         private Color GetRandomColor()

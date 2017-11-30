@@ -6,8 +6,6 @@ namespace TagsCloud.Interfaces
     public interface IImageConfigurator
     {
         //Configure image size and translateTransform
-        void Configure(IReadOnlyCollection<Rectangle> rectangles, Point center);
-        Graphics Graphics { get; }
-        void SaveImage(string filepath);
+        (Bitmap bitmap, Graphics graphics) Configure (IReadOnlyCollection<Rectangle> rectangles, Point center);
     }
 }
