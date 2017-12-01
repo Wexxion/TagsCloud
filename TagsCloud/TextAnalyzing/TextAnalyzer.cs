@@ -7,12 +7,12 @@ namespace TagsCloud.TextAnalyzing
 {
     public class TextAnalyzer : ITextAnalyzer
     {
-        private readonly IWordFilter wordFilter;
+        public IWordFilter WordFilter { get; }
         private readonly IWordConverter wordConverter;
 
         public TextAnalyzer(IWordFilter wordFilter, IWordConverter wordConverter)
         {
-            this.wordFilter = wordFilter;
+            WordFilter = wordFilter;
             this.wordConverter = wordConverter;
         }
 
@@ -22,7 +22,7 @@ namespace TagsCloud.TextAnalyzing
         public IEnumerable<Word> GetSortedWords(IEnumerable<string> text)
         {
             var allWords = FindAllwords(text);
-            var filteredWords = wordFilter.FilterWords(allWords);
+            var filteredWords = WordFilter.FilterWords(allWords);
             var convertedWords = wordConverter.ConvertWords(filteredWords);
             return TopNWords == 0
                 ? CountWords(convertedWords)
@@ -31,7 +31,7 @@ namespace TagsCloud.TextAnalyzing
 
         private IEnumerable<string> FindAllwords(IEnumerable<string> text)
         {
-            var delims = new[] {'.', ',', ';', ' ', '\n', '?', '!', ':', '(', ')', '[', ']', '{', '}', '\'', '"', '–'};
+            var delims = new[] {'.', ',', ';', ' ', '\n', '?', '!', ':', '(', ')', '[', ']', '{', '}', '\'', '"', '–', '=', '-'};
             return text.SelectMany(x => x.Split(delims, StringSplitOptions.RemoveEmptyEntries))
                 .Select(x => x.ToLower())
                 .Where(y => y.Length > MinWordLength);

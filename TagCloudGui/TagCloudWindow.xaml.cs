@@ -47,10 +47,10 @@ namespace TagCloudGui
             img.BeginInit();
             img.Source = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(), IntPtr.Zero,
                 Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-            img.Width = canvas.ActualWidth;
-            img.Height = canvas.ActualHeight;
+            img.Width = Canvas.ActualWidth;
+            img.Height = Canvas.ActualHeight;
             img.EndInit();
-            canvas.Children.Add(img);
+            Canvas.Children.Add(img);
         }
     }
 }

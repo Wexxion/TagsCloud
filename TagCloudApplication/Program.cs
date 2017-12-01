@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using TagsCloud.Interfaces;
 
 namespace TagCloudApplication
 {
@@ -8,36 +9,24 @@ namespace TagCloudApplication
         [STAThread]
         static void Main(string[] args)
         {
-            PrintUsage();
             var container = DiContainer.GetContainer();
-            var ui = Console.ReadLine().ToLowerInvariant();
-            if (ui.Contains("cui"))
-            {
-                var cui = container.Resolve<ConsoleUi>();
-                cui.Run();
-            }
-            else if (ui.Contains("gui"))
-            {
-                var gui = container.Resolve<GraphicUi>();
-                gui.Run();
-            }
+            IUi ui;
+            if (args.Length == 1 && args[0] == "-c")
+                    ui = container.Resolve<ConsoleUi>();
             else
             {
-                Console.WriteLine("Try again =[");
                 PrintUsage();
-                Console.ReadKey();
-                Environment.Exit(0);
+                ui = container.Resolve<GraphicUi>();
             }
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
+            ui.Run();
         }
 
         private static void PrintUsage()
         {
             Console.WriteLine("Welcome to TagCloud!");
-            Console.WriteLine("Choose mode: [CUI/GUI]");
-            Console.WriteLine("CUI - Console user interface");
-            Console.WriteLine("GUI - Graphic user interface\n");
+            Console.WriteLine("Choose mode: -g | -c");
+            Console.WriteLine("c - Console user interface");
+            Console.WriteLine("g - Graphic user interface (DEFAULT)\n");
         }
     }
 }

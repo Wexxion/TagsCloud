@@ -38,9 +38,11 @@ namespace TagCloudApplication
         {
             var cwd = Directory.GetParent(Directory.GetCurrentDirectory()).Parent?.FullName + "\\";
             textReader.Filepath = ReadStringArgument("Path to file with text:", 
-                defaultValue: cwd + @"VisualizationData\Hero of our Time.txt");
+                defaultValue: cwd + @"VisualizationData\Holmes.txt");
             filepath = ReadStringArgument("Save to (with name):", 
-                defaultValue: cwd + @"VisualizationData\WCloud");
+                defaultValue: cwd + @"VisualizationData\WordCloud");
+            tagCloud.TextAnalyzer.WordFilter.TextReader.Filepath = ReadStringArgument("Save to (with name):",
+                defaultValue: cwd + @"VisualizationData\boring_words.txt");
             tagCloud.TextAnalyzer.TopNWords = ReadIntArgument("Use top N words (0 - all):", defaultValue: 250);
             tagCloud.TextAnalyzer.MinWordLength = ReadIntArgument("Min word length:", defaultValue: 3);
             tagCloud.FontAnalyzer.FontFamily = ReadStringArgument("Font", defaultValue: "Calibri");

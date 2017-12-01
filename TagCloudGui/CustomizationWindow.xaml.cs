@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Forms;
+using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace TagCloudGui
 {
@@ -50,6 +51,15 @@ namespace TagCloudGui
             tagCloudHelper.tagCloud.FontAnalyzer.MaxFontSize = MaxFontSize;
             tagCloudHelper.tagCloud.FontAnalyzer.FontFamily = Font;
             Hide();
+        }
+
+        private void OpenFilterFile(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog { Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*" };
+            if (openFileDialog.ShowDialog() != true) return;
+            tagCloudHelper.tagCloud.TextAnalyzer.WordFilter.TextReader.Filepath = openFileDialog.FileName;
+            var filename = openFileDialog.FileName.Split('\\');
+            FilterFile.Text = filename[filename.Length - 1];
         }
     }
 }
