@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using TagsCloud.Infrastructure;
 using TagsCloud.Layouter.Interfaces;
 
 namespace TagsCloud.Layouter
 {
-    class Spiral : ILayoutAlgorithm
+    public class Spiral : ILayoutAlgorithm
     {
         private Point center;
-        private readonly IEnumerator<Point> enumerator;
+        private IEnumerator<Point> enumerator;
         private const int Coils = 100;
         private const int DistanseBetweenCoils = 100;
         private const int DistanseBetweenPoints = 2;
@@ -21,9 +22,15 @@ namespace TagsCloud.Layouter
             return res;
         }
 
-        public Spiral(Point centerPoint)
+        public void Restart()
         {
-            center = centerPoint;
+            enumerator = GetEnumerator();
+            enumerator.MoveNext();
+        }
+
+        public Spiral(PointFactory pointFactory)
+        {
+            center = pointFactory.Create();
             enumerator = GetEnumerator();
             enumerator.MoveNext();
         }

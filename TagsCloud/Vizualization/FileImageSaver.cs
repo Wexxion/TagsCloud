@@ -4,7 +4,7 @@ using TagsCloud.Interfaces;
 
 namespace TagsCloud.Vizualization
 {
-    public class FileImageSaver : IImagaSaver
+    public class FileImageSaver : IImageSaver
     {
         public void SaveImage(Bitmap bitmap, string filepath)
         {

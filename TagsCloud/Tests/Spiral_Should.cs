@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+using TagsCloud.Infrastructure;
 using TagsCloud.Layouter;
 
 namespace TagsCloud.Tests
@@ -18,7 +19,7 @@ namespace TagsCloud.Tests
         public void SetUp()
         {
             center = new Point(0, 0);
-            spiral = new Spiral(center);
+            spiral = new Spiral(new PointFactory());
         }
 
         [Test]

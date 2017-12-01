@@ -1,9 +1,11 @@
 ﻿using System;
 using Autofac;
-namespace TagsCloud
+
+namespace TagCloudApplication
 {
-    public class Program
+    class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
             PrintUsage();
@@ -16,7 +18,8 @@ namespace TagsCloud
             }
             else if (ui.Contains("gui"))
             {
-                throw new NotImplementedException();
+                var gui = container.Resolve<GraphicUi>();
+                gui.Run();
             }
             else
             {
@@ -25,6 +28,8 @@ namespace TagsCloud
                 Console.ReadKey();
                 Environment.Exit(0);
             }
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
         }
 
         private static void PrintUsage()

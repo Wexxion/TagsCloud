@@ -6,7 +6,7 @@ using TagsCloud.Interfaces;
 
 namespace TagsCloud.Vizualization
 {
-    class ImageConfigurator : IImageConfigurator
+    public class ImageConfigurator : IImageConfigurator
     {
         (Bitmap bitmap, Graphics graphics) IImageConfigurator.Configure(IReadOnlyCollection<Rectangle> rectangles, Point center)
         {

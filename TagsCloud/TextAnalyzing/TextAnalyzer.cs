@@ -5,7 +5,7 @@ using TagsCloud.TextAnalyzing.Interfaces;
 
 namespace TagsCloud.TextAnalyzing
 {
-    internal class TextAnalyzer : ITextAnalyzer
+    public class TextAnalyzer : ITextAnalyzer
     {
         private readonly IWordFilter wordFilter;
         private readonly IWordConverter wordConverter;
@@ -16,7 +16,7 @@ namespace TagsCloud.TextAnalyzing
             this.wordConverter = wordConverter;
         }
 
-        public int TopNWords { get; set; } = 0;
+        public int TopNWords { get; set; } = 100;
         public int MinWordLength { get; set; } = 3;
 
         public IEnumerable<Word> GetSortedWords(IEnumerable<string> text)

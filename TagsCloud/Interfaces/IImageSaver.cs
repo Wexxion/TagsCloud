@@ -2,7 +2,7 @@
 
 namespace TagsCloud.Interfaces
 {
-    public interface IImagaSaver
+    public interface IImageSaver
     {
         void SaveImage(Bitmap bitmap, string filepath);
     }

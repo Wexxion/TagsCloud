@@ -35,6 +35,7 @@ namespace TagsCloud
                 component.LayoutRectangle = Layouter.PutNextRectangle(component.Size);
                 components.Add(component);
             }
+            Layouter.Clear();
             return Vizualizer.DrawTagCloud(components);
         }
     }

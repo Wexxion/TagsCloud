@@ -1,21 +1,22 @@
 ﻿using System;
 using System.IO;
+using TagsCloud;
 using TagsCloud.Interfaces;
 
-namespace TagsCloud
+namespace TagCloudApplication
 {
     public class ConsoleUi : IUi
     {
         private readonly ITextReader textReader;
         private readonly TagCloud tagCloud;
-        private readonly IImagaSaver imagaSaver;
+        private readonly IImageSaver _imageSaver;
         private string filepath;
 
-        public ConsoleUi(ITextReader textReader, TagCloud tagCloud, IImagaSaver imagaSaver)
+        public ConsoleUi(ITextReader textReader, TagCloud tagCloud, IImageSaver imageSaver)
         {
             this.textReader = textReader;
             this.tagCloud = tagCloud;
-            this.imagaSaver = imagaSaver;
+            this._imageSaver = imageSaver;
         }
 
         public void Run()
@@ -24,15 +25,13 @@ namespace TagsCloud
             ReadArguments();
             CreateWordCloud();
             Console.WriteLine("Finished!");
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
         }
 
         private void CreateWordCloud()
         {
             var text = textReader.ReadText();
             var bitmap = tagCloud.DrawTagCloud(text);
-            imagaSaver.SaveImage(bitmap, filepath);
+            _imageSaver.SaveImage(bitmap, filepath);
         }
 
         private void ReadArguments()

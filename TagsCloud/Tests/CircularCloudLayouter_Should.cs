@@ -19,8 +19,9 @@ namespace TagsCloud.Tests
         [SetUp]
         public void SetUp()
         {
-            center = new Point(0, 0);
-            layouter = new CircularCloudLayouter(new PointFactory());
+            var pointFactory = new PointFactory();
+            center = pointFactory.Create();
+            layouter = new CircularCloudLayouter(new Spiral(pointFactory), pointFactory);
         }
 
         [Test]
@@ -37,8 +38,8 @@ namespace TagsCloud.Tests
         [TestCase(-1, 0)]
         public void ThrowArgumentException_WhenCenterHasNegativeCoordinates(int x, int y)
         {
-            var center = new Point(x, y);
-            Action act = () => new CircularCloudLayouter(new PointFactory());
+            var pointFactory = new PointFactory();
+            Action act = () => new CircularCloudLayouter(new Spiral(pointFactory), pointFactory);
 
             act.ShouldThrow<ArgumentException>().WithMessage("*negative*");
         }

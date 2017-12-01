@@ -7,5 +7,6 @@ namespace TagsCloud.Layouter.Interfaces
     {
         IReadOnlyCollection<Rectangle> Rectangles { get; }
         Rectangle PutNextRectangle(Size rectangleSize);
+        void Clear();
     }
 }
