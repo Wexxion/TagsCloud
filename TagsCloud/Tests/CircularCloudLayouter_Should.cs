@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using FluentAssertions;
@@ -19,9 +20,8 @@ namespace TagsCloud.Tests
         [SetUp]
         public void SetUp()
         {
-            var pointFactory = new PointFactory();
-            center = pointFactory.Create();
-            layouter = new CircularCloudLayouter(new Spiral(pointFactory), pointFactory);
+            center = Point.Empty;
+            layouter = new CircularCloudLayouter(new Spiral(), center);
         }
 
         [Test]
@@ -38,8 +38,8 @@ namespace TagsCloud.Tests
         [TestCase(-1, 0)]
         public void ThrowArgumentException_WhenCenterHasNegativeCoordinates(int x, int y)
         {
-            var pointFactory = new PointFactory();
-            Action act = () => new CircularCloudLayouter(new Spiral(pointFactory), pointFactory);
+            center = new Point(x, y);
+            Action act = () => new CircularCloudLayouter(new Spiral(), center);
 
             act.ShouldThrow<ArgumentException>().WithMessage("*negative*");
         }
@@ -49,8 +49,7 @@ namespace TagsCloud.Tests
         [TestCase(500)]
         public void PlaceRectangeWithGivenSize(int count)
         {
-            //не круто обращаться к Program, это должна быть входная точка, не более
-            var sizes = Extensions.GenerateRandomRectSize(count).ToArray();
+            var sizes = GenerateRandomRectSize(count).ToArray();
             var rects = sizes.Select(size => layouter.PutNextRectangle(size));
 
             sizes.Should().Equal(rects.Select(rect => rect.Size));
@@ -61,7 +60,7 @@ namespace TagsCloud.Tests
         [TestCase(500)]
         public void PlaceAllGivenRects(int count)
         {
-            foreach (var size in Extensions.GenerateRandomRectSize(count))
+            foreach (var size in GenerateRandomRectSize(count))
                 layouter.PutNextRectangle(size);
 
             layouter.Rectangles.Should().HaveCount(count);
@@ -72,7 +71,7 @@ namespace TagsCloud.Tests
         [TestCase(500)]
         public void NotIntersectRectangles(int count)
         {
-            foreach (var size in Extensions.GenerateRandomRectSize(count))
+            foreach (var size in GenerateRandomRectSize(count))
                 layouter.PutNextRectangle(size);
             foreach (var rectangle in layouter.Rectangles)
             {
@@ -98,11 +97,17 @@ namespace TagsCloud.Tests
             if (context.Result.Outcome.Status != TestStatus.Failed) return;
             var appPath = AppDomain.CurrentDomain.BaseDirectory;
             var filepath = $@"{appPath}\..\..\Tests\Fails\{context.Test.Name}.jpg";
-            var visualizer = new TagCloudVizualizer(new ImageConfigurator(), 
-                new PointFactory()) {FilePath = filepath};
+            var visualizer = new TagCloudVizualizer(new ImageConfigurator(), center) {FilePath = filepath};
             visualizer.DrawRectCloud(layouter.Rectangles);
 
             Console.WriteLine($"Tag cloud visualization saved to file {filepath}");
+        }
+
+        private IEnumerable<Size> GenerateRandomRectSize(int count = 1)
+        {
+            var rnd = new Random();
+            for (var i = 0; i < count; i++)
+                yield return new Size(rnd.Next(35, 75), rnd.Next(15, 50));
         }
     }
 }

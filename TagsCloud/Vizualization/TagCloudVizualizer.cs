@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using TagsCloud.Infrastructure;
-using TagsCloud.Interfaces;
-using TagsCloud.Layouter.Interfaces;
+using TagsCloud.Layouter;
 using TagsCloud.TextAnalyzing;
 
 namespace TagsCloud.Vizualization
@@ -16,21 +15,21 @@ namespace TagsCloud.Vizualization
         private readonly Point center;
         public string FilePath { get; set; }
 
-        public TagCloudVizualizer(IImageConfigurator imageConfigurator, PointFactory pointFactory)
+        public TagCloudVizualizer(IImageConfigurator imageConfigurator, Point center)
         {
             this.imageConfigurator = imageConfigurator;
-            center = pointFactory.Create();
+            this.center = center;
             rnd = new Random();
         }
 
-        public Bitmap DrawTagCloud(List<ILayoutComponent<Word>> layoutComponents)
+        public Bitmap DrawTagCloud(List<ILayoutComponent<Word>> layoutComponents, bool randomColors)
         {
             var (bitmap, graphics) = imageConfigurator
                 .Configure(layoutComponents.Select(word => word.LayoutRectangle).ToList(), center);
 
             foreach (var layoutComponent in layoutComponents)
             {
-                var brush = new SolidBrush(GetRandomColor());
+                var brush = randomColors ? new SolidBrush(GetRandomColor()) : Brushes.Black;
                 graphics.DrawString(layoutComponent.Component.Value, 
                     layoutComponent.Component.Font, brush, layoutComponent.LayoutRectangle);
             }

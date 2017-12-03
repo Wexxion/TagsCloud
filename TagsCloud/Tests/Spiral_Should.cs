@@ -19,7 +19,8 @@ namespace TagsCloud.Tests
         public void SetUp()
         {
             center = new Point(0, 0);
-            spiral = new Spiral(new PointFactory());
+            spiral = new Spiral();
+            spiral.SetCenterPoint(center);
         }
 
         [Test]

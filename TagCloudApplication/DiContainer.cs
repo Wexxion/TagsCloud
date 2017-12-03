@@ -1,11 +1,11 @@
-﻿using Autofac;
+﻿using System;
+using System.Drawing;
+using Autofac;
+using TagCloudApplication.UI;
 using TagsCloud;
 using TagsCloud.Infrastructure;
-using TagsCloud.Interfaces;
 using TagsCloud.Layouter;
-using TagsCloud.Layouter.Interfaces;
 using TagsCloud.TextAnalyzing;
-using TagsCloud.TextAnalyzing.Interfaces;
 using TagsCloud.Vizualization;
 
 namespace TagCloudApplication
@@ -14,19 +14,11 @@ namespace TagCloudApplication
     {
         public static IContainer GetContainer()
         {
+            var center = Point.Empty;
             var builder = new ContainerBuilder();
-            builder.RegisterType<FileTextReader>().As<ITextReader>();
-            builder.RegisterType<TagCloud>().AsSelf();
-            builder.RegisterType<CircularCloudLayouter>().As<ITagCloudLayouter>();
-            builder.RegisterType<Spiral>().As<ILayoutAlgorithm>();
-            builder.RegisterType<FontAnalyzer>().As<IFontAnalyzer>();
-            builder.RegisterType<TextAnalyzer>().As<ITextAnalyzer>();
-            builder.RegisterType<SimpleWordFilter>().As<IWordFilter>();
-            builder.RegisterType<SimpleWordConverter>().As<IWordConverter>();
-            builder.RegisterType<TagCloudVizualizer>().AsSelf();
-            builder.RegisterType<ImageConfigurator>().As<IImageConfigurator>();
-            builder.RegisterType<FileImageSaver>().As<IImageSaver>();
-            builder.RegisterType<PointFactory>().AsSelf();
+            builder.RegisterAssemblyTypes(typeof(TagCloud).Assembly).AsSelf().AsImplementedInterfaces();
+            builder.RegisterType<CircularCloudLayouter>().As<ITagCloudLayouter>().WithParameter("center", center);
+            builder.RegisterType<TagCloudVizualizer>().AsSelf().WithParameter("center", center);
             builder.RegisterType<ConsoleUi>().AsSelf();
             builder.RegisterType<GraphicUi>().AsSelf();
             return builder.Build();

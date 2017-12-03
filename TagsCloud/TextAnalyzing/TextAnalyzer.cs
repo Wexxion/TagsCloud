@@ -1,40 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TagsCloud.TextAnalyzing.Interfaces;
 
 namespace TagsCloud.TextAnalyzing
 {
+    public interface ITextAnalyzer
+    {
+        IEnumerable<Word> GetSortedWords(IEnumerable<string> text, int topNWords, int minWordLength);
+    }
+
     public class TextAnalyzer : ITextAnalyzer
     {
-        public IWordFilter WordFilter { get; }
-        private readonly IWordConverter wordConverter;
-
-        public TextAnalyzer(IWordFilter wordFilter, IWordConverter wordConverter)
+        public IEnumerable<Word> GetSortedWords(IEnumerable<string> text, int topNWords, int minWordLength)
         {
-            WordFilter = wordFilter;
-            this.wordConverter = wordConverter;
+            var allWords = FindAllwords(text, minWordLength);
+            return topNWords == 0
+                ? CountWords(allWords)
+                : CountWords(allWords).Take(topNWords);
         }
 
-        public int TopNWords { get; set; } = 100;
-        public int MinWordLength { get; set; } = 3;
-
-        public IEnumerable<Word> GetSortedWords(IEnumerable<string> text)
-        {
-            var allWords = FindAllwords(text);
-            var filteredWords = WordFilter.FilterWords(allWords);
-            var convertedWords = wordConverter.ConvertWords(filteredWords);
-            return TopNWords == 0
-                ? CountWords(convertedWords)
-                : CountWords(convertedWords).Take(TopNWords);
-        }
-
-        private IEnumerable<string> FindAllwords(IEnumerable<string> text)
+        private IEnumerable<string> FindAllwords(IEnumerable<string> text, int minWordLength)
         {
             var delims = new[] {'.', ',', ';', ' ', '\n', '?', '!', ':', '(', ')', '[', ']', '{', '}', '\'', '"', '–', '=', '-'};
             return text.SelectMany(x => x.Split(delims, StringSplitOptions.RemoveEmptyEntries))
                 .Select(x => x.ToLower())
-                .Where(y => y.Length > MinWordLength);
+                .Where(y => y.Length > minWordLength);
         }
 
         private IEnumerable<Word> CountWords(IEnumerable<string> words)

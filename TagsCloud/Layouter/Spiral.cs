@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using TagsCloud.Infrastructure;
-using TagsCloud.Layouter.Interfaces;
 
 namespace TagsCloud.Layouter
 {
     public class Spiral : ILayoutAlgorithm
     {
-        private Point center;
+        private Point center = Point.Empty;
         private IEnumerator<Point> enumerator;
         private const int Coils = 100;
         private const int DistanseBetweenCoils = 100;
         private const int DistanseBetweenPoints = 2;
-        private const int RotationDirection = 1; //Clockwise if positive
+        private const bool ClockwiceRotation = true;
+
+        public void SetCenterPoint(Point newCenter)
+        {
+            center = newCenter;
+        }
 
         public Point GetNextPoint()
         {
@@ -28,9 +31,8 @@ namespace TagsCloud.Layouter
             enumerator.MoveNext();
         }
 
-        public Spiral(PointFactory pointFactory)
+        public Spiral()
         {
-            center = pointFactory.Create();
             enumerator = GetEnumerator();
             enumerator.MoveNext();
         }
@@ -43,7 +45,7 @@ namespace TagsCloud.Layouter
             while (true)
             {
                 var away = awayStep * theta;
-                var around = theta + RotationDirection;
+                var around = theta + (ClockwiceRotation ? 1 : -1);
 
                 var x = (int)(center.X + Math.Cos(around) * away);
                 var y = (int)(center.Y + Math.Sin(around) * away);

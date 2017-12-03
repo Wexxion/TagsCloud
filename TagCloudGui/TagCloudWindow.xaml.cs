@@ -6,17 +6,16 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using TagsCloud;
-using TagsCloud.Interfaces;
 
 namespace TagCloudGui
 {
     public partial class TagCloudWindow
     {
-        private readonly TagCloudHelper tagCloudHelper;
+        private readonly TagCloudHelper helper;
 
-        public TagCloudWindow(ITextReader textReader, TagCloud tagCloud, IImageSaver imageSaver)
+        public TagCloudWindow(TagCloudHelper tagCloudHelper)
         {
-            tagCloudHelper = new TagCloudHelper(textReader, tagCloud, imageSaver);
+            helper = tagCloudHelper;
             InitializeComponent();
         }
 
@@ -24,25 +23,28 @@ namespace TagCloudGui
         {
             var openFileDialog = new OpenFileDialog {Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*"};
             if (openFileDialog.ShowDialog() == true)
-                tagCloudHelper.OpenFile(openFileDialog.FileName);
+                helper.InputPath = openFileDialog.FileName;
         }
 
         private void OnSaveFile(object sender, RoutedEventArgs e)
         {
             var saveFileDialog = new SaveFileDialog {Filter = "Png image (*.png)|*png" };
             if (saveFileDialog.ShowDialog() == true)
-                tagCloudHelper.SaveFile(saveFileDialog.FileName);
+                helper.OutputPath = saveFileDialog.FileName;
         }
 
         private void OnCustomization(object sender, RoutedEventArgs e)
         {
-            var customizationWindow = new CustomizationWindow(tagCloudHelper);
+            var customizationWindow = new CustomizationWindow(helper);
             customizationWindow.Show();
         }
 
         private void OnDrawing(object sender, RoutedEventArgs e)
         {
-            var bitmap = tagCloudHelper.DrawTagCould();
+
+            var text = helper.GetText();
+            var boringWords = helper.GetBoringWords();
+            var bitmap = helper.DrawTagCould(text, boringWords);
             var img = new Image {Stretch = Stretch.Uniform, StretchDirection = StretchDirection.Both};
             img.BeginInit();
             img.Source = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(), IntPtr.Zero,

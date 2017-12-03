@@ -72,7 +72,6 @@
     <Compile Include="CustomizationWindow.xaml.cs">
       <DependentUpon>CustomizationWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TagCloudHelper.cs" />
     <Compile Include="TagCloudWindow.xaml.cs">
       <DependentUpon>TagCloudWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

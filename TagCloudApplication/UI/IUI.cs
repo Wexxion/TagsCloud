@@ -1,4 +1,4 @@
-﻿namespace TagsCloud.Interfaces
+﻿namespace TagCloudApplication.UI
 {
     public interface IUi
     {

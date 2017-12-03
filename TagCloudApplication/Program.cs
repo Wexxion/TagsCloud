@@ -1,6 +1,6 @@
 ﻿using System;
 using Autofac;
-using TagsCloud.Interfaces;
+using TagCloudApplication.UI;
 
 namespace TagCloudApplication
 {
@@ -12,7 +12,7 @@ namespace TagCloudApplication
             var container = DiContainer.GetContainer();
             IUi ui;
             if (args.Length == 1 && args[0] == "-c")
-                    ui = container.Resolve<ConsoleUi>();
+                ui = container.Resolve<ConsoleUi>();
             else
             {
                 PrintUsage();

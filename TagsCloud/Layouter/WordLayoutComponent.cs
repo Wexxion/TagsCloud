@@ -1,6 +1,5 @@
 ﻿using System.Drawing;
 using System.Windows.Forms;
-using TagsCloud.Layouter.Interfaces;
 using TagsCloud.TextAnalyzing;
 
 namespace TagsCloud.Layouter

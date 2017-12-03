@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using TagsCloud.TextAnalyzing.Interfaces;
 
 namespace TagsCloud.TextAnalyzing
 {
+    public interface IFontAnalyzer
+    {
+        IEnumerable<Word> SetFontForWords(IEnumerable<Word> words, int minFontSize, int maxFontSize, string fontFamily);
+    }
     public class FontAnalyzer : IFontAnalyzer
     {
-        public int MaxFontSize { get; set; } = 72;
-        public int MinFontSize { get; set; } = 28;
-        public string FontFamily { get; set; } = "Calibri";
-
-        public IEnumerable<Word> SetFontForWords(IEnumerable<Word> words)
+        public IEnumerable<Word> SetFontForWords(IEnumerable<Word> words, int minFontSize, int maxFontSize, string fontFamily)
         {
             foreach (var word in words)
             {
-                var weight = (Math.Log(word.Count) - Math.Log(MinFontSize)) /
-                           (Math.Log(MaxFontSize) - Math.Log(MinFontSize));
-                var size = (int)(MinFontSize + (MaxFontSize - MinFontSize) * weight);
-                var fontSize = Math.Max(MinFontSize, size);
-                word.Font = new Font(FontFamily, fontSize);
+                var weight = (Math.Log(word.Count) - Math.Log(minFontSize)) /
+                           (Math.Log(maxFontSize) - Math.Log(minFontSize));
+                var size = (int)(minFontSize + (maxFontSize - minFontSize) * weight);
+                var fontSize = Math.Max(minFontSize, size);
+                word.Font = new Font(fontFamily, fontSize);
                 yield return word;
             }
         }

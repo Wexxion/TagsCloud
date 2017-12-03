@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 using TagsCloud.Infrastructure;
-using TagsCloud.Layouter.Interfaces;
 
 namespace TagsCloud.Layouter
 {
@@ -11,15 +10,13 @@ namespace TagsCloud.Layouter
         private readonly ILayoutAlgorithm layoutAlgorithm;
         private readonly List<Rectangle> rectangles;
         public IReadOnlyCollection<Rectangle> Rectangles => rectangles.AsReadOnly();
-        public readonly Point Center;
-        public CircularCloudLayouter(ILayoutAlgorithm layoutAlgorithm, PointFactory pointFactory)
+        public CircularCloudLayouter(ILayoutAlgorithm layoutAlgorithm, Point center)
         {
-            var center = pointFactory.Create();
+            this.layoutAlgorithm = layoutAlgorithm;
             if (center.X < 0 || center.Y < 0)
                 throw new ArgumentException("Center with negative coordinates is not allowed!");
-            Center = center;
+            layoutAlgorithm.SetCenterPoint(center);
             rectangles = new List<Rectangle>();
-            this.layoutAlgorithm = layoutAlgorithm;
         }
 
         public Rectangle PutNextRectangle(Size rectangleSize)

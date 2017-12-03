@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using TagsCloud.Interfaces;
 
 namespace TagsCloud.Infrastructure
 {
+    public interface ITextReader
+    {
+        IEnumerable<string> ReadText(string filepath);
+
+    }
+
     public class FileTextReader : ITextReader
     {
-        public string Filepath { get; set; }
-
-        public IEnumerable<string> ReadText()
+        public IEnumerable<string> ReadText(string filepath)
         {
-            if (string.IsNullOrEmpty(Filepath)) throw new ArgumentNullException();
-            return File.ReadAllLines(Filepath);
+            if (string.IsNullOrEmpty(filepath)) throw new ArgumentNullException();
+            return File.ReadAllLines(filepath);
         }
     }
 }

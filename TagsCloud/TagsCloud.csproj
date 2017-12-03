@@ -78,33 +78,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\PointFactory.cs" />
+    <Compile Include="TagCloudHelper.cs" />
     <Compile Include="Vizualization\FileImageSaver.cs" />
-    <Compile Include="Interfaces\IImageSaver.cs" />
     <Compile Include="Layouter\CircularCloudLayouter.cs" />
     <Compile Include="Infrastructure\Extensions.cs" />
     <Compile Include="Infrastructure\FileTextReader.cs" />
     <Compile Include="TagCloud.cs" />
     <Compile Include="TextAnalyzing\FontAnalyzer.cs" />
-    <Compile Include="Infrastructure\Geometry.cs" />
     <Compile Include="Vizualization\ImageConfigurator.cs" />
-    <Compile Include="TextAnalyzing\Interfaces\IFontAnalyzer.cs" />
-    <Compile Include="Interfaces\IImageConfigurator.cs" />
-    <Compile Include="Layouter\Interfaces\ILayoutAlgorithm.cs" />
-    <Compile Include="Layouter\Interfaces\ILayoutComponent.cs" />
-    <Compile Include="Layouter\Interfaces\ITagCloudLayouter.cs" />
-    <Compile Include="TextAnalyzing\Interfaces\ITextAnalyzer.cs" />
-    <Compile Include="Interfaces\ITextReader.cs" />
-    <Compile Include="Interfaces\IUI.cs" />
-    <Compile Include="TextAnalyzing\Interfaces\IWordConverter.cs" />
-    <Compile Include="TextAnalyzing\Interfaces\IWordFilter.cs" />
+    <Compile Include="Layouter\ILayoutAlgorithm.cs" />
+    <Compile Include="Layouter\ILayoutComponent.cs" />
+    <Compile Include="Layouter\ITagCloudLayouter.cs" />
     <Compile Include="TextAnalyzing\SimpleWordFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TextAnalyzing\SimpleWordConverter.cs" />
     <Compile Include="Layouter\Spiral.cs" />
     <Compile Include="Vizualization\TagCloudVizualizer.cs" />
     <Compile Include="Tests\CircularCloudLayouter_Should.cs" />
-    <Compile Include="Tests\Geometry_Should.cs" />
     <Compile Include="Tests\Spiral_Should.cs" />
     <Compile Include="Tests\TextAnalyzer_Should.cs" />
     <Compile Include="TextAnalyzing\TextAnalyzer.cs" />

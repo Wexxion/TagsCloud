@@ -18,12 +18,12 @@ namespace TagsCloud.Infrastructure
         public static List<T> ReferenceClone<T>(this IReadOnlyCollection<T> listToClone) 
             => listToClone.Select(item => item).ToList();
 
-
-        public static IEnumerable<Size> GenerateRandomRectSize(int count = 1)
+        public static HashSet<T> ToHashSet<T>(this IEnumerable<T> collection)
         {
-            var rnd = new Random();
-            for (var i = 0; i < count; i++)
-                yield return new Size(rnd.Next(35, 75), rnd.Next(15, 50));
+            var res = new HashSet<T>();
+            foreach (var item in collection)
+                res.Add(item);
+            return res;
         }
     }
 }
