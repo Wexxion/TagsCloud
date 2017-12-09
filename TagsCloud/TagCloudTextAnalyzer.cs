@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using TagsCloud.TextAnalyzing;
 
 namespace TagsCloud
@@ -26,10 +27,8 @@ namespace TagsCloud
             int minWordLength, int minFontSize, int maxFontSize, string fontFamily)
         {
             var words = textAnalyzer.GetWords(text, minWordLength);
-            foreach (var wordConverter in wordConverters)
-                words = wordConverter.ConvertWords(words);
-            foreach (var wordFilter in wordFilters)
-                words = wordFilter.FilterWords(words);
+            words = wordConverters.Aggregate(words, (current, wordConverter) => wordConverter.ConvertWords(current));
+            words = wordFilters.Aggregate(words, (current, wordFilter) => wordFilter.FilterWords(current));
             var sortedWords = wordCounter.CountWords(words, topNWords);
             return fontAnalyzer.SetFontForWords(sortedWords, minFontSize, maxFontSize, fontFamily);
         }

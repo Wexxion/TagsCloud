@@ -63,7 +63,8 @@
   <ItemGroup>
     <Compile Include="CircularCloudLayouter_Should.cs" />
     <Compile Include="Spiral_Should.cs" />
-    <Compile Include="TagCloud_Should.cs" />
+    <Compile Include="TagCloudDrawer_Should.cs" />
+    <Compile Include="TagCloudTextAnalyzer_Should.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
