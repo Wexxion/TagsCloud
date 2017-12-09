@@ -5,12 +5,16 @@ namespace TagsCloud.TextAnalyzing
 {
     public interface IWordFilter
     {
-        IEnumerable<Word> FilterWords(IEnumerable<Word> words, HashSet<string> boringWords);
+        IEnumerable<string> FilterWords(IEnumerable<string> words);
     }
 
     public class SimpleWordFilter : IWordFilter
     {
-        public IEnumerable<Word> FilterWords(IEnumerable<Word> words, HashSet<string> boringWords) 
-            => words.Where(word => !boringWords.Contains(word.Value) && word.Value.Length > 3);
+        private readonly HashSet<string> boringWords;
+
+        public SimpleWordFilter(HashSet<string> boringWords) => this.boringWords = boringWords;
+
+        public IEnumerable<string> FilterWords(IEnumerable<string> words) 
+            => words.Where(word => !boringWords.Contains(word) && word.Length > 3);
     }
 }

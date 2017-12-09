@@ -4,10 +4,9 @@ using System.Drawing;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
-using TagsCloud.Infrastructure;
 using TagsCloud.Layouter;
 
-namespace TagsCloud.Tests
+namespace TagCloudTests
 {
     [TestFixture]
     class Spiral_Should

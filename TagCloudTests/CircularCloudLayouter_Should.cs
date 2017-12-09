@@ -9,7 +9,7 @@ using TagsCloud.Infrastructure;
 using TagsCloud.Layouter;
 using TagsCloud.Vizualization;
 
-namespace TagsCloud.Tests
+namespace TagCloudTests
 {
     [TestFixture]
     class CircularCloudLayouter_Should

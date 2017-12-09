@@ -4,11 +4,11 @@ namespace TagsCloud.TextAnalyzing
 {
     public interface IWordConverter
     {
-        IEnumerable<Word> ConvertWords(IEnumerable<Word> words);
+        IEnumerable<string> ConvertWords(IEnumerable<string> words);
     }
 
     public class SimpleWordConverter : IWordConverter
     {
-        public IEnumerable<Word> ConvertWords(IEnumerable<Word> words) => words;
+        public IEnumerable<string> ConvertWords(IEnumerable<string> words) => words;
     }
 }

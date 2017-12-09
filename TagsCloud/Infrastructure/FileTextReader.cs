@@ -6,7 +6,7 @@ namespace TagsCloud.Infrastructure
 {
     public interface ITextReader
     {
-        IEnumerable<string> ReadText(string filepath);
+        IEnumerable<string> ReadText(string source);
 
     }
 

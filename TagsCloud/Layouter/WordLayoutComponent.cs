@@ -15,5 +15,6 @@ namespace TagsCloud.Layouter
         public Word Component { get; }
         public Size Size { get; }
         public Rectangle LayoutRectangle { get; set; }
+        public Brush Brush { get; set; }
     }
 }

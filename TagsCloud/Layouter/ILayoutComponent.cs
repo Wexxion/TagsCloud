@@ -7,5 +7,6 @@ namespace TagsCloud.Layouter
         TComponent Component { get; }
         Size Size { get; }
         Rectangle LayoutRectangle { get; set; }
+        Brush Brush { get; set; }
     }
 }
