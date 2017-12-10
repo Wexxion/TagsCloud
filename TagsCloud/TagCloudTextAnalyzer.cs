@@ -23,6 +23,7 @@ namespace TagsCloud
             this.wordCounter = wordCounter;
         }
 
+
         public IEnumerable<Word> GetWords(IEnumerable<string> text,int topNWords, 
             int minWordLength, int minFontSize, int maxFontSize, string fontFamily)
         {

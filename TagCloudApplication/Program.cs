@@ -1,5 +1,6 @@
 ﻿using System;
-using TagCloudGui;
+using Autofac;
+using TagCloudApplication.UI;
 
 namespace TagCloudApplication
 {
@@ -8,22 +9,16 @@ namespace TagCloudApplication
         [STAThread]
         static void Main(string[] args)
         {
-            switch (args.Length)
+            var container = DiContainer.GetContainer();
+            IUi ui;
+            if (args.Length == 1 && args[0] == "-c")
+                ui = container.Resolve<ConsoleUi>();
+            else
             {
-                case 1 when args[0] == "-c":
-                    new ConsoleUi().Run();
-                    break;
-                case 1 when args[0] == "-g":
-                    var app = new App();
-                    app.Run(new TagCloudWindow());
-                    break;
-                default:
-                    PrintUsage();
-                    break;
+                PrintUsage();
+                ui = container.Resolve<GraphicUi>();
             }
-            new ConsoleUi().Run();
-            //var application = new App();
-            //application.Run(new TagCloudWindow());
+            ui.Run();
         }
 
         private static void PrintUsage()

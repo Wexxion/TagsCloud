@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="TagCloudDrawer.cs" />
+    <Compile Include="TagCloudHelper.cs" />
     <Compile Include="TagCloudSettings.cs" />
     <Compile Include="TextAnalyzing\WordCounter.cs" />
     <Compile Include="Vizualization\FileImageSaver.cs" />

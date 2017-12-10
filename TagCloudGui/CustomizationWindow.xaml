@@ -21,19 +21,19 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Center">Top N words (0=all)</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="0" TextAlignment="Center" Text="{Binding Path=Settings.TopNWords, Mode=TwoWay}"></TextBox>
+        <TextBox Grid.Column="1" Grid.Row="0" TextAlignment="Center" Text="{Binding TopNWords, Mode=TwoWay}"></TextBox>
         <TextBlock Grid.Column="0" Grid.Row="1" TextAlignment="Center">Min Word Length</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="1" TextAlignment="Center" Text="{Binding Path=Settings.MinWordLength, Mode=TwoWay}"></TextBox>
+        <TextBox Grid.Column="1" Grid.Row="1" TextAlignment="Center" Text="{Binding Path=MinWordLength, Mode=TwoWay}"></TextBox>
         <TextBlock Grid.Column="0" Grid.Row="2" TextAlignment="Center">Min Font Size</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="2" TextAlignment="Center" Text="{Binding Path=Settings.MinFontSize, Mode=TwoWay}"></TextBox>
+        <TextBox Grid.Column="1" Grid.Row="2" TextAlignment="Center" Text="{Binding Path=MinFontSize, Mode=TwoWay}"></TextBox>
         <TextBlock Grid.Column="0" Grid.Row="3" TextAlignment="Center">Max Font Size</TextBlock>
-        <TextBox Grid.Column="1" Grid.Row="3" TextAlignment="Center" Text="{Binding Path=Settings.MaxFontSize, Mode=TwoWay}"></TextBox>
+        <TextBox Grid.Column="1" Grid.Row="3" TextAlignment="Center" Text="{Binding Path=MaxFontSize, Mode=TwoWay}"></TextBox>
         <Button Grid.Column="0" Grid.Row="4" Click="SelectFont">Select Font</Button>
-        <TextBox Grid.Column="1" Grid.Row="4" TextAlignment="Center" Name="SelectedFont" Text="{Binding Path=Settings.FontFamily, Mode=TwoWay}"></TextBox>
-        <TextBlock Grid.Column="0" Grid.Row="5" TextAlignment="Center">Use Random Colors</TextBlock>
-        <CheckBox Grid.Column="1" Grid.Row="5" Click="UseRandomColors" Name="CheckBox" HorizontalAlignment="Center"></CheckBox>
+        <TextBox Grid.Column="1" Grid.Row="4" TextAlignment="Center" Name="SelectedFont" Text="{Binding Path=FontFamily, Mode=TwoWay}"></TextBox>
+        <!--<TextBlock Grid.Column="0" Grid.Row="5" TextAlignment="Center">Use Random Colors</TextBlock>
+        <CheckBox Grid.Column="1" Grid.Row="5" Click="UseRandomColors" IsChecked="True" HorizontalAlignment="Center"></CheckBox>
         <Button Grid.Column="0" Grid.Row="6" Click="OpenFilterFile">Open Filter File</Button>
-        <TextBox Grid.Column="1" Grid.Row="6" TextAlignment="Center" Name="FilterFile">None</TextBox>
+        <TextBox Grid.Column="1" Grid.Row="6" TextAlignment="Center" Name="FilterFile">None</TextBox>-->
         <Button Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="7" Click="SaveSettings">Save</Button>
     </Grid>
 </Window>
