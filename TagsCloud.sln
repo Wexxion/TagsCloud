@@ -5,6 +5,12 @@ VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagsCloud", "TagsCloud\TagsCloud.csproj", "{01E70694-6159-4DF4-9717-F2BEA5FB55EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagCloudGui", "TagCloudGui\TagCloudGui.csproj", "{7EAC5827-56DC-44F8-BD2F-E9F12F81DBF1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagCloudApplication", "TagCloudApplication\TagCloudApplication.csproj", "{59BA0D9C-3CC7-4146-A421-DBD2A8DCB3DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TagCloudTests", "TagCloudTests\TagCloudTests.csproj", "{55A63EB1-45EE-472C-95B0-FD6CA216E922}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{01E70694-6159-4DF4-9717-F2BEA5FB55EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01E70694-6159-4DF4-9717-F2BEA5FB55EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01E70694-6159-4DF4-9717-F2BEA5FB55EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EAC5827-56DC-44F8-BD2F-E9F12F81DBF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EAC5827-56DC-44F8-BD2F-E9F12F81DBF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EAC5827-56DC-44F8-BD2F-E9F12F81DBF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EAC5827-56DC-44F8-BD2F-E9F12F81DBF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59BA0D9C-3CC7-4146-A421-DBD2A8DCB3DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59BA0D9C-3CC7-4146-A421-DBD2A8DCB3DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59BA0D9C-3CC7-4146-A421-DBD2A8DCB3DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59BA0D9C-3CC7-4146-A421-DBD2A8DCB3DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55A63EB1-45EE-472C-95B0-FD6CA216E922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55A63EB1-45EE-472C-95B0-FD6CA216E922}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55A63EB1-45EE-472C-95B0-FD6CA216E922}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55A63EB1-45EE-472C-95B0-FD6CA216E922}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
