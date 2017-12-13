@@ -1,11 +1,9 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.IO;
 using Autofac;
 using TagCloudApplication.UI;
 using TagsCloud;
 using TagsCloud.Infrastructure;
-using TagsCloud.TextAnalyzing;
 
 namespace TagCloudApplication
 {

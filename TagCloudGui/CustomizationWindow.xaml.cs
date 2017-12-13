@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Forms;
 using TagsCloud;
-using OpenFileDialog = Microsoft.Win32.OpenFileDialog;
 
 namespace TagCloudGui
 {

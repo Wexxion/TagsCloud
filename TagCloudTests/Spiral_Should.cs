@@ -30,7 +30,7 @@ namespace TagCloudTests
             firstPoint.ShouldBeEquivalentTo(center);
         }
 
-        [TestCaseSource("TestCasesForSpiralPontsTest")]
+        [TestCaseSource(nameof(TestCasesForSpiralPontsTest))]
         public void ReturnPointsOnSpiral(IEnumerable<Point> expectedPoints, int count, int offset)
         {
             var points = new List<Point>();
