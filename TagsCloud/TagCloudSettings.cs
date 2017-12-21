@@ -7,7 +7,7 @@
         public int MinFontSize { get; set; } = 20;
         public int MaxFontSize { get; set; } = 72;
         public string FontFamily { get; set; } = "Calibri";
-        public string InputPath { get; set; } = null;
-        public string OutputPath { get; set; } = null;
+        public string InputPath { get; set; }
+        public string OutputPath { get; set; }
     }
 }

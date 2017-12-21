@@ -5,7 +5,7 @@ namespace TagsCloud.TextAnalyzing
 {
     public interface IWordFilter
     {
-        IEnumerable<string> FilterWords(IEnumerable<string> words);
+        List<string> FilterWords(List<string> words);
     }
 
     public class SimpleWordFilter : IWordFilter
@@ -14,7 +14,7 @@ namespace TagsCloud.TextAnalyzing
 
         public SimpleWordFilter(HashSet<string> boringWords) => this.boringWords = boringWords;
 
-        public IEnumerable<string> FilterWords(IEnumerable<string> words) 
-            => words.Where(word => !boringWords.Contains(word) && word.Length > 3);
+        public List<string> FilterWords(List<string> words)
+            => words.Where(word => !boringWords.Contains(word) && word.Length > 3).ToList();
     }
 }

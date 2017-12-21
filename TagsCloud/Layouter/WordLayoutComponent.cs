@@ -4,7 +4,7 @@ using TagsCloud.TextAnalyzing;
 
 namespace TagsCloud.Layouter
 {
-    public class WordLayoutComponent : ILayoutComponent<Word>
+    public class WordLayoutComponent
     {
         public WordLayoutComponent(Word word)
         {

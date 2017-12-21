@@ -11,8 +11,8 @@ namespace TagCloudTests
     [TestFixture]
     public class TagCloudTextAnalyzer_Should
     {
-        private readonly IEnumerable<string> testText = new[] {"a b c", "abc", "a b", "a", "a"};
-        
+        private readonly List<string> testText = new List<string> { "a b c", "abc", "a b", "a", "a" };
+
         private TagCloudTextAnalyzer tagCloudTextAnalyzer;
         private Mock<WordCounter> wordCounter;
         private Mock<FontAnalyzer> fontAnalyzer;
@@ -33,32 +33,32 @@ namespace TagCloudTests
         public void SetUp()
         {
             wordCounter = new Mock<WordCounter> { CallBase = true };
-            fontAnalyzer = new Mock<FontAnalyzer> {CallBase = true};
+            fontAnalyzer = new Mock<FontAnalyzer> { CallBase = true };
 
             textAnalyzer = new Mock<ITextAnalyzer>();
             textAnalyzer
-                .Setup(x => x.GetWords(It.IsAny<IEnumerable<string>>(), It.IsAny<int>()))
-                .Returns(new[] {"a", "a", "a", "a", "b", "b", "c", "abc"});
+                .Setup(x => x.GetWords(It.IsAny<List<string>>(), It.IsAny<int>()))
+                .Returns(new List<string> { "a", "a", "a", "a", "b", "b", "c", "abc" });
 
             wordFilter1 = new Mock<IWordFilter>();
             wordFilter1
-                .Setup(x => x.FilterWords(It.IsAny<IEnumerable<string>>()))
-                .Returns<IEnumerable<string>>(x => x);
+                .Setup(x => x.FilterWords(It.IsAny<List<string>>()))
+                .Returns<List<string>>(x => x);
 
             wordFilter2 = new Mock<IWordFilter>();
             wordFilter2
-                .Setup(x => x.FilterWords(It.IsAny<IEnumerable<string>>()))
-                .Returns<IEnumerable<string>>(x => x);
+                .Setup(x => x.FilterWords(It.IsAny<List<string>>()))
+                .Returns<List<string>>(x => x);
 
             wordConverter1 = new Mock<IWordConverter>();
             wordConverter1
-                .Setup(x => x.ConvertWords(It.IsAny<IEnumerable<string>>()))
-                .Returns<IEnumerable<string>>(x => x);
+                .Setup(x => x.ConvertWords(It.IsAny<List<string>>()))
+                .Returns<List<string>>(x => x);
 
             wordConverter2 = new Mock<IWordConverter>();
             wordConverter2
-                .Setup(x => x.ConvertWords(It.IsAny<IEnumerable<string>>()))
-                .Returns<IEnumerable<string>>(x => x);
+                .Setup(x => x.ConvertWords(It.IsAny<List<string>>()))
+                .Returns<List<string>>(x => x);
 
             tagCloudTextAnalyzer = new TagCloudTextAnalyzer(fontAnalyzer.Object, textAnalyzer.Object,
                 new[] { wordFilter1.Object, wordFilter2.Object },
@@ -69,45 +69,45 @@ namespace TagCloudTests
         [Test]
         public void CallConverterAndFilterOnlyOnce()
         {
-            var expected = new[] {new Word("a", 4), new Word("b", 2), new Word("c", 1), new Word("abc", 1)};
+            var expected = new[] { new Word("a", 4), new Word("b", 2), new Word("c", 1), new Word("abc", 1) };
 
             var res = tagCloudTextAnalyzer.GetWords(testText, TopNWords, MinWordLength, MinFontSize, MaxFontSize, FontFamily);
 
-            wordConverter1.Verify(o => o.ConvertWords(It.IsAny<IEnumerable<string>>()), Times.Once);
-            wordConverter2.Verify(o => o.ConvertWords(It.IsAny<IEnumerable<string>>()), Times.Once);
-            wordFilter1.Verify(o => o.FilterWords(It.IsAny<IEnumerable<string>>()), Times.Once);
-            wordFilter2.Verify(o => o.FilterWords(It.IsAny<IEnumerable<string>>()), Times.Once);
+            wordConverter1.Verify(o => o.ConvertWords(It.IsAny<List<string>>()), Times.Once);
+            wordConverter2.Verify(o => o.ConvertWords(It.IsAny<List<string>>()), Times.Once);
+            wordFilter1.Verify(o => o.FilterWords(It.IsAny<List<string>>()), Times.Once);
+            wordFilter2.Verify(o => o.FilterWords(It.IsAny<List<string>>()), Times.Once);
 
-            res.ShouldAllBeEquivalentTo(expected, opt => opt.Excluding(w => w.Font));
+            res.GetValueOrThrow().ShouldAllBeEquivalentTo(expected, opt => opt.Excluding(w => w.Font));
         }
 
         [Test]
         public void UseFilters()
         {
             wordFilter1
-                .Setup(x => x.FilterWords(It.IsAny<IEnumerable<string>>()))
-                .Returns<IEnumerable<string>>(x => x.Where(y => y.Length > 2));
+                .Setup(x => x.FilterWords(It.IsAny<List<string>>()))
+                .Returns<IEnumerable<string>>(x => x.Where(y => y.Length > 2).ToList());
             var expected = new[] { new Word("abc", 1) };
 
             var res = tagCloudTextAnalyzer.GetWords(testText, TopNWords, MinWordLength, MinFontSize, MaxFontSize, FontFamily);
 
-            res.ShouldAllBeEquivalentTo(expected, opt => opt.Excluding(w => w.Font));
+            res.GetValueOrThrow().ShouldAllBeEquivalentTo(expected, opt => opt.Excluding(w => w.Font));
         }
 
         [Test]
         public void UseConverters()
         {
             wordConverter1
-                .Setup(x => x.ConvertWords(It.IsAny<IEnumerable<string>>()))
-                .Returns<IEnumerable<string>>(x => x.Select(y => y + "!"));
+                .Setup(x => x.ConvertWords(It.IsAny<List<string>>()))
+                .Returns<IEnumerable<string>>(x => x.Select(y => y + "!").ToList());
             wordConverter2
-                .Setup(x => x.ConvertWords(It.IsAny<IEnumerable<string>>()))
-                .Returns<IEnumerable<string>>(x => x.Select(y => y + "?"));
+                .Setup(x => x.ConvertWords(It.IsAny<List<string>>()))
+                .Returns<IEnumerable<string>>(x => x.Select(y => y + "?").ToList());
             var expected = new[] { new Word("a!?", 4), new Word("b!?", 2), new Word("c!?", 1), new Word("abc!?", 1) };
 
             var res = tagCloudTextAnalyzer.GetWords(testText, TopNWords, MinWordLength, MinFontSize, MaxFontSize, FontFamily);
 
-            res.ShouldAllBeEquivalentTo(expected, opt => opt.Excluding(w => w.Font));
+            res.GetValueOrThrow().ShouldAllBeEquivalentTo(expected, opt => opt.Excluding(w => w.Font));
         }
     }
 }

@@ -1,18 +1,22 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
+using TagsCloud.Infrastructure;
 
 namespace TagsCloud.Vizualization
 {
     public interface IImageSaver
     {
-        void SaveImage(Bitmap bitmap, string filepath);
+        Result<Bitmap> SaveImage(Bitmap bitmap, string filepath);
     }
+
     public class FileImageSaver : IImageSaver
     {
-        public void SaveImage(Bitmap bitmap, string filepath)
+        public Result<Bitmap> SaveImage(Bitmap bitmap, string filepath)
         {
-            if (string.IsNullOrEmpty(filepath)) throw new ArgumentNullException();
-            bitmap.Save($"{filepath}.png");
+            return Result.Of(() =>
+            {
+                bitmap.Save($"{filepath}.png");
+                return bitmap;
+            });
         }
     }
 }

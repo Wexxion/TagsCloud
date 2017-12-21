@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TagsCloud.Infrastructure;
 using TagsCloud.TextAnalyzing;
 
 namespace TagsCloud
@@ -24,14 +25,14 @@ namespace TagsCloud
         }
 
 
-        public IEnumerable<Word> GetWords(IEnumerable<string> text,int topNWords, 
+        public Result<List<Word>> GetWords(List<string> text,int topNWords, 
             int minWordLength, int minFontSize, int maxFontSize, string fontFamily)
         {
-            var words = textAnalyzer.GetWords(text, minWordLength);
-            words = wordConverters.Aggregate(words, (current, wordConverter) => wordConverter.ConvertWords(current));
-            words = wordFilters.Aggregate(words, (current, wordFilter) => wordFilter.FilterWords(current));
-            var sortedWords = wordCounter.CountWords(words, topNWords);
-            return fontAnalyzer.SetFontForWords(sortedWords, minFontSize, maxFontSize, fontFamily);
+            return textAnalyzer.GetWords(text, minWordLength)
+                .Then(words => wordConverters.Aggregate(words, (current, converter) => converter.ConvertWords(current)))
+                .Then(words => wordFilters.Aggregate(words, (current, filter) => filter.FilterWords(current)))
+                .Then(words => wordCounter.CountWords(words, topNWords))
+                .Then(words => fontAnalyzer.SetFontForWords(words, minFontSize, maxFontSize, fontFamily));
         }
     }
 }
