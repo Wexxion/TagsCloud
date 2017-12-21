@@ -16,7 +16,7 @@ namespace TagCloudApplication
             else
             {
                 PrintUsage();
-                ui = container.Resolve<ConsoleUi>();
+                ui = container.Resolve<GraphicUi>();
             }
             ui.Run();
         }

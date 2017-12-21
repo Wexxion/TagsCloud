@@ -15,7 +15,7 @@ namespace TagCloudGui
     public partial class TagCloudWindow
     {
         private readonly TagCloudHelper helper;
-        private Result<Bitmap> bitmap;
+        private Result<Bitmap> bitmap = Result.Fail<Bitmap>(String.Empty);
 
         public TagCloudWindow(TagCloudHelper tagCloudHelper)
         {
