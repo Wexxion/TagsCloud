@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using TagsCloud.Infrastructure;
 
 namespace TagsCloud.TextAnalyzing
 {
     public interface IWordConverter
     {
-        List<string> ConvertWords(List<string> words);
+        Result<List<string>> ConvertWords(List<string> words);
     }
 
     public class SimpleWordConverter : IWordConverter
     {
-        public List<string> ConvertWords(List<string> words) => words;
+        public Result<List<string>> ConvertWords(List<string> words) => words;
     }
 }

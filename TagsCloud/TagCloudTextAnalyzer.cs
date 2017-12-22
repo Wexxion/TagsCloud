@@ -12,9 +12,9 @@ namespace TagsCloud
         private readonly ITextAnalyzer textAnalyzer;
         private readonly IEnumerable<IWordFilter> wordFilters;
         private readonly IEnumerable<IWordConverter> wordConverters;
-        
 
-        public TagCloudTextAnalyzer( IFontAnalyzer fontAnalyzer, ITextAnalyzer textAnalyzer,
+
+        public TagCloudTextAnalyzer(IFontAnalyzer fontAnalyzer, ITextAnalyzer textAnalyzer,
             IEnumerable<IWordFilter> wordFilters, IEnumerable<IWordConverter> wordConverters, IWordCounter wordCounter)
         {
             this.fontAnalyzer = fontAnalyzer;
@@ -25,12 +25,14 @@ namespace TagsCloud
         }
 
 
-        public Result<List<Word>> GetWords(List<string> text,int topNWords, 
+        public Result<List<Word>> GetWords(List<string> text, int topNWords,
             int minWordLength, int minFontSize, int maxFontSize, string fontFamily)
         {
             return textAnalyzer.GetWords(text, minWordLength)
-                .Then(words => wordConverters.Aggregate(words, (current, converter) => converter.ConvertWords(current)))
-                .Then(words => wordFilters.Aggregate(words, (current, filter) => filter.FilterWords(current)))
+                .Then(words => wordConverters.Aggregate(words,
+                    (current, converter) => converter.ConvertWords(current).GetValueOrThrow()))
+                .Then(words =>
+                    wordFilters.Aggregate(words, (current, filter) => filter.FilterWords(current).GetValueOrThrow()))
                 .Then(words => wordCounter.CountWords(words, topNWords))
                 .Then(words => fontAnalyzer.SetFontForWords(words, minFontSize, maxFontSize, fontFamily));
         }
