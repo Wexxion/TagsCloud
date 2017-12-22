@@ -15,7 +15,7 @@ namespace TagCloudTests
     {
         private static readonly Font font = new Font("Calibri", 72);
 
-        private readonly IEnumerable<Word> words = new[]
+        private readonly List<Word> words = new List<Word>
         {
             new Word("a", 4) {Font = font},
             new Word("b", 2) {Font = font},
@@ -36,8 +36,8 @@ namespace TagCloudTests
             layouter = new Mock<ITagCloudLayouter>();
             layouter
                 .Setup(x => x.Rectangles)
-                .Returns(() => new[] {new Rectangle(Point.Empty, new Size(10, 10))});
-            colorSelector = new Mock<OneColorSelector>(Brushes.Black) {CallBase = true};
+                .Returns(() => new[] { new Rectangle(Point.Empty, new Size(10, 10)) });
+            colorSelector = new Mock<OneColorSelector>(Brushes.Black) { CallBase = true };
 
             imageConfigurator = new Mock<IImageConfigurator>();
             var bitmap = new Bitmap(20, 20);
@@ -46,7 +46,7 @@ namespace TagCloudTests
                 .Setup(x => x.Configure(It.IsAny<IReadOnlyCollection<Rectangle>>(), It.IsAny<Point>()))
                 .Returns(() => (bitmap, graphics));
 
-            vizualizer = new Mock<TagCloudVizualizer>(imageConfigurator.Object, Point.Empty) {CallBase = true};
+            vizualizer = new Mock<TagCloudVizualizer>(imageConfigurator.Object, Point.Empty) { CallBase = true };
 
             drawer = new TagCloudDrawer(vizualizer.Object, layouter.Object, colorSelector.Object);
         }
@@ -57,7 +57,7 @@ namespace TagCloudTests
             drawer.DrawTagCloud(words);
 
             imageConfigurator
-                .Verify(x => x.Configure(It.IsAny<IReadOnlyCollection<Rectangle>>(), It.IsAny<Point>()), 
+                .Verify(x => x.Configure(It.IsAny<IReadOnlyCollection<Rectangle>>(), It.IsAny<Point>()),
                 Times.Once);
         }
 

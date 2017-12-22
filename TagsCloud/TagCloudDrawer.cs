@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using TagsCloud.Infrastructure;
 using TagsCloud.Layouter;
 using TagsCloud.TextAnalyzing;
 using TagsCloud.Vizualization;
@@ -19,18 +21,22 @@ namespace TagsCloud
             this.colorSelector = colorSelector;
         }
 
-        public Bitmap DrawTagCloud(IEnumerable<Word> words)
+        public Result<Bitmap> DrawTagCloud(List<Word> allWords)
         {
-            var components = new List<ILayoutComponent<Word>>();
-            foreach (var word in words)
-            {
-                var component = new WordLayoutComponent(word);
-                colorSelector.SetColorFor(component);
-                component.LayoutRectangle = layouter.PutNextRectangle(component.Size);
-                components.Add(component);
-            }
+            var image = allWords.AsResult()
+                .Then(words => words.Select(word => new WordLayoutComponent(word)).ToList())
+                .Then(components => colorSelector.SetColorsFor(components))
+                .Then(SetLayoutRectangles)
+                .Then(components => vizualizer.DrawTagCloud(components));
             layouter.Clear();
-            return vizualizer.DrawTagCloud(components);
+            return image;
+        }
+
+        private List<WordLayoutComponent> SetLayoutRectangles(List<WordLayoutComponent> components)
+        {
+            foreach (var component in components)
+                component.LayoutRectangle = layouter.PutNextRectangle(component.Size);
+            return components;
         }
     }
 }

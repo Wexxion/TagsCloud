@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
 using TagsCloud;
+using TagsCloud.Infrastructure;
 using Image = System.Windows.Controls.Image;
 
 namespace TagCloudGui
@@ -14,7 +15,7 @@ namespace TagCloudGui
     public partial class TagCloudWindow
     {
         private readonly TagCloudHelper helper;
-        private Bitmap bitmap;
+        private Result<Bitmap> bitmap = Result.Fail<Bitmap>(String.Empty);
 
         public TagCloudWindow(TagCloudHelper tagCloudHelper)
         {
@@ -31,10 +32,16 @@ namespace TagCloudGui
 
         private void OnSaveFile(object sender, RoutedEventArgs e)
         {
+            if (!bitmap.IsSuccess)
+            {
+                MessageBox.Show("Невозможно сохранить несуществующее избражение!",
+                    "ERROR", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             var saveFileDialog = new SaveFileDialog { Filter = "Png image (*.png)|*png" };
             if (saveFileDialog.ShowDialog() == true)
                 helper.Settings.OutputPath = saveFileDialog.FileName;
-            helper.SaveImage(bitmap);
+            helper.SaveImage(bitmap.GetValueOrThrow());
         }
 
         private void OnCustomization(object sender, RoutedEventArgs e)
@@ -45,12 +52,16 @@ namespace TagCloudGui
 
         private void OnDrawing(object sender, RoutedEventArgs e)
         {
-            var text = helper.GetText();
-            var words = helper.GetWords(text);
-            bitmap = helper.GetTagCloudBitmap(words);
+            bitmap = helper.GetText()
+                .Then(text => helper.GetWords(text))
+                .RefineError("Can't get words: ")
+                .Then(words => helper.GetTagCloudBitmap(words))
+                .RefineError("Can't visualize words: ")
+                .OnFail(error => MessageBox.Show(error, "ERROR", MessageBoxButton.OK, MessageBoxImage.Error));
+            if (!bitmap.IsSuccess) return;
             var img = new Image { Stretch = Stretch.Uniform, StretchDirection = StretchDirection.Both };
             img.BeginInit();
-            img.Source = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetHbitmap(), IntPtr.Zero,
+            img.Source = Imaging.CreateBitmapSourceFromHBitmap(bitmap.GetValueOrThrow().GetHbitmap(), IntPtr.Zero,
                 Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
             img.Width = Canvas.ActualWidth;
             img.Height = Canvas.ActualHeight;

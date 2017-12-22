@@ -20,22 +20,13 @@ namespace TagsCloud.Layouter
 
         public Point GetNextPoint()
         {
-            var res = enumerator.Current;
             enumerator.MoveNext();
-            return res;
+            return enumerator.Current;
         }
 
-        public void Restart()
-        {
-            enumerator = GetEnumerator();
-            enumerator.MoveNext();
-        }
+        public void Restart() => enumerator = GetEnumerator();
 
-        public Spiral()
-        {
-            enumerator = GetEnumerator();
-            enumerator.MoveNext();
-        }
+        public Spiral() => enumerator = GetEnumerator();
 
         public IEnumerator<Point> GetEnumerator()
         {

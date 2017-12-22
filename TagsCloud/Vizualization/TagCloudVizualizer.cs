@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Linq;
 using TagsCloud.Layouter;
-using TagsCloud.TextAnalyzing;
 
 namespace TagsCloud.Vizualization
 {
@@ -18,7 +17,7 @@ namespace TagsCloud.Vizualization
             this.center = center;
         }
 
-        public Bitmap DrawTagCloud(List<ILayoutComponent<Word>> layoutComponents)
+        public Bitmap DrawTagCloud(List<WordLayoutComponent> layoutComponents)
         {
             var (bitmap, graphics) = imageConfigurator
                 .Configure(layoutComponents.Select(word => word.LayoutRectangle).ToList(), center);

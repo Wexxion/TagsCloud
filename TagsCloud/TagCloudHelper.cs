@@ -24,13 +24,13 @@ namespace TagsCloud
             Settings = new TagCloudSettings();
         }
 
-        public IEnumerable<string> GetText() => textReader.ReadText(Settings.InputPath);
+        public Result<List<string>> GetText() => textReader.ReadText(Settings.InputPath);
 
-        public IEnumerable<Word> GetWords(IEnumerable<string> text) => textAnalyzer.GetWords(text, Settings.TopNWords,
+        public Result<List<Word>> GetWords(List<string> text) => textAnalyzer.GetWords(text, Settings.TopNWords,
             Settings.MinWordLength, Settings.MinFontSize, Settings.MaxFontSize, Settings.FontFamily);
 
-        public Bitmap GetTagCloudBitmap(IEnumerable<Word> words) => drawer.DrawTagCloud(words);
+        public Result<Bitmap> GetTagCloudBitmap(List<Word> words) => drawer.DrawTagCloud(words);
 
-        public void SaveImage(Bitmap image) => imageSaver.SaveImage(image, Settings.OutputPath);
+        public Result<Bitmap> SaveImage(Bitmap image) => imageSaver.SaveImage(image, Settings.OutputPath);
     }
 }

@@ -97,7 +97,7 @@ namespace TagCloudTests
             if (context.Result.Outcome.Status != TestStatus.Failed) return;
             var appPath = AppDomain.CurrentDomain.BaseDirectory;
             var filepath = $@"{appPath}\..\..\Tests\Fails\{context.Test.Name}.jpg";
-            var visualizer = new TagCloudVizualizer(new ImageConfigurator(), center) {FilePath = filepath};
+            var visualizer = new TagCloudVizualizer(new ImageConfigurator(), center) { FilePath = filepath };
             visualizer.DrawRectCloud(layouter.Rectangles);
 
             Console.WriteLine($"Tag cloud visualization saved to file {filepath}");

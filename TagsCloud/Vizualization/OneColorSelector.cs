@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using TagsCloud.Layouter;
 
 namespace TagsCloud.Vizualization
@@ -7,6 +8,12 @@ namespace TagsCloud.Vizualization
     {
         private readonly Brush brush;
         public OneColorSelector(Brush brush) => this.brush = brush;
-        public void SetColorFor<T>(ILayoutComponent<T> component) => component.Brush = brush;
+
+        public List<WordLayoutComponent> SetColorsFor(List<WordLayoutComponent> components)
+        {
+            foreach (var component in components)
+                component.Brush = brush;
+            return components;
+        }
     }
 }

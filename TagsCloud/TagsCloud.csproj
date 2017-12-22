@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\Result.cs" />
     <Compile Include="TagCloudDrawer.cs" />
     <Compile Include="TagCloudHelper.cs" />
     <Compile Include="TagCloudSettings.cs" />
@@ -82,7 +83,6 @@
     <Compile Include="Vizualization\IColorSelector.cs" />
     <Compile Include="Vizualization\ImageConfigurator.cs" />
     <Compile Include="Layouter\ILayoutAlgorithm.cs" />
-    <Compile Include="Layouter\ILayoutComponent.cs" />
     <Compile Include="Layouter\ITagCloudLayouter.cs" />
     <Compile Include="TextAnalyzing\SimpleWordFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

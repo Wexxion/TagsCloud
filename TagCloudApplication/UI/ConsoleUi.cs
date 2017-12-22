@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using TagsCloud;
+using TagsCloud.Infrastructure;
 
 namespace TagCloudApplication.UI
 {
@@ -17,14 +18,19 @@ namespace TagCloudApplication.UI
             ReadArguments();
             CreateWordCloud();
             Console.WriteLine("Finished!");
+            Console.ReadKey();
         }
 
         private void CreateWordCloud()
         {
-            var text = helper.GetText();
-            var words = helper.GetWords(text);
-            var image = helper.GetTagCloudBitmap(words);
-            helper.SaveImage(image);
+            helper.GetText()
+                .Then(text => helper.GetWords(text))
+                .RefineError("Can't get words: ")
+                .Then(words => helper.GetTagCloudBitmap(words))
+                .RefineError("Can't visualize words: ")
+                .Then(image => helper.SaveImage(image))
+                .RefineError("Can't save image: ")
+                .OnFail(Console.WriteLine);
         }
 
         private void ReadArguments()
